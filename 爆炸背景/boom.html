@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>爆炸</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		body{
+			overflow:hidden;
+		}
+		#div1{
+			width:60%;
+			height:60%;
+			position:absolute;
+			top:0;
+			right:0;
+			bottom:0;
+			left:0;
+			margin:auto;
+			/*background:url() no-repeat center 0px;*/
+			/*top:50%;
+			left:50%;
+			margin:-300px 0px 0px -500px;*/
+			/*border:1px solid #000;*/
+		}
+		#div1>span{
+			display:block;
+			position:absolute;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			transform:perspective(800px);
+			transform-style:preserve-3d;
+			/*background:#000;*/
+			/*background-size:800px;*/
+		}
+		#div1>span>i{
+			display:block;
+			position:absolute;
+			transform:perspective(800px);
+			z-index:9999;
+		}
+	</style>
+</head>
+<body>
+	<div id="div1"></div>
+	<script type="text/javascript">
+	
+	// 图片的数组
+	var arr=[];
+	//颜色数组
+	var colors=['#00008B','#A9A9A9','#8B0000','#FFD700','#7CFC00','#191970','#4682B4','#FFFF00','#6A5ACD','#FF0000','#FF4500','#9370D8','#7FFFD4'];
+	//图片数量
+	var a =21;
+	var index=0;
+	var indexs = 0;
+	var z =999999999;
+	// 通过循环在arr数组里生成21个图片路径
+	for(var i = 1 ; i<=a; i++){
+		arr.push('./imgs/'+i+'.jpg');
+	}
+	console.log(arr);
+	// 调用爆炸函数
+	boom(15,15);
+	function boom(a,b){
+		// 获取浏览器窗口可视的宽
+	 	var w= document.getElementById('div1').clientWidth;
+	 	// 获取浏览器窗口可视的高
+	 	var h= document.getElementById('div1').clientHeight;
+		// div1里面生成一span标签
+		// 创建元素节点 createElement('标签名');
+		var oparentNode = document.createElement('span');
+		// 通过定位里层级属性让每次生成的i都在上一span的上面
+		oparentNode.style.zIndex=z;
+		z--;
+		// 在div1里面生成span标签
+		div1.appendChild(oparentNode);
+		var x = a;
+		var y = b;
+		//通过for循环在span里生成多个i标签
+		for(var i = 0 ; i<y ;i++){
+			for(var j = 0 ; j<x; j++){
+				//创建元素节点 createElement('标签名');
+				var oI= document.createElement('i');
+				
+				//里的i宽等于div1的宽度除以x的值
+				oI.style.width = div1.clientWidth / x +'px';
+				//div1里span里的i宽的等于div1的高度度除以y的值
+				oI.style.height=div1.clientHeight/y+'px';
+				//div1里面每一个i x轴的位置
+				oI.style.left=(div1.clientWidth / x)* j +'px';
+				//div1里面每一个i y轴的位置
+				oI.style.top=(div1.clientHeight / y)* i +'px';
+				// 给div1里面的每个i一个背景
+				// 图片背景
+				oI.style.background = 'url('+arr[index]+') ';
+				// 颜色背景
+				// oI.style.backgroundColor=colors[indexs];
+				oI.style.backgroundSize=''+w+'px '+h+'px';
+				//div1里面得每个i背景的x轴的位置
+				oI.style.backgroundPositionX=(div1.clientWidth / x)* -j+'px';
+				//div1里面得每个i背景的y轴的位置
+				oI.style.backgroundPositionY=(div1.clientHeight / y)* -i+'px';
+				// 过度的随机秒数
+				oI.style.transition=(Math.random()*2+1)+'s';
+				// 在span里面生成多个i标签
+				oparentNode.appendChild(oI);
+				
+			}
+			
+		};
+		//获取span里的多个i
+		var allI = oparentNode.children;
+		// 通过for循环改变所有div1里面div的样式
+		// sale缩放
+		// 延迟2秒后才开始爆炸
+		setTimeout(function(){
+			// 判断index大于等于arr数组个数时就等于0否则继续加1
+			index=(++index>=arr.length)? 0:index++;
+			// indexs=(++indexs>=colors.length)? 0:indexs++;
+			// 调用爆炸函数
+			boom(a,b);
+			for (var i =0; i <allI.length; i++){
+				// 改变每个i标签爆炸的效果
+				allI[i].style.transform='perspective(800px) translateX('+(Math.random()*400-200)+'px) translateY('+(Math.random()*400-200)+'px) rotateX('+(Math.random()*380-180)+'deg) rotateY('+(Math.random()*380-180)+'deg) translateZ('+(Math.random()*200+100)+'px)';
+					allI[i].style.opacity=0;
+			}
+		},2000);
+		// 爆炸后3秒把爆炸的碎片div删除然后再执行爆炸函数一直这样循环
+		setTimeout(function(){
+		// div1.innerHTML='';
+		// 删除爆炸的碎片i
+		oparentNode.remove();
+		//调用爆炸函数会有死循环
+		// boom(a,b);
+		},5000);
+	}
+	
+	//爆炸后两秒使图片归位
+	// setTimeout(function(){
+	// 	for (var i =0; i <allDiv.length; i++){
+	// 	allDiv[i].style.transform='perspective(800px) translateX(0px) translateY(0px) rotateX(0deg) rotateY(0deg) ';
+	// }
+	// },3000);
+	</script>
+</body>
+</html>

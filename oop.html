@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="jquery-1.7.2.min.js"></script>
+    <script src="oop.js"></script>
+    
+    <script>
+        $(function(){
+            $('#box').each(function(){
+                new boom(3,5,$(this))
+            })
+        })
+    </script>
+<style>
+    *{
+        margin:0;
+        padding:0;
+    }
+    body{
+        overflow:hidden;
+    }
+    #div1{
+        width:900px;
+        height:400px;
+        position:absolute;
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+        margin:auto;
+        /*background:url() no-repeat center 0px;*/
+        /*top:50%;
+        left:50%;
+        margin:-300px 0px 0px -500px;*/
+        /*border:1px solid #000;*/
+    }
+    #div1>span{
+        display:block;
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        transform:perspective(800px);
+        transform-style:preserve-3d;
+        /*background:#000;*/
+        /*background-size:800px;*/
+    }
+    #div1>span>i{
+        display:block;
+        position:absolute;
+        transform:perspective(800px);
+        z-index:9999;
+        transition: 1s;
+    }
+    .on{
+        animation: go 0.2s linear 1
+    }
+    @keyframes go{
+        0%{top:-500px}
+        90%{top:100px}
+        95%{top:-100}
+        100%{top:0px}
+    }
+</style>
+</head>
+<body>
+    <div id="box"></div>
+</body>
+
+</html>
